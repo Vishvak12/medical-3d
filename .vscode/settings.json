@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./PrimeDepthv2/PrimeDepth"
+    ]
+}
