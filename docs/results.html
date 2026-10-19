@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Results - medical-3d</title>
+<meta name="description" content="3D renders per depth model and an interactive point cloud.">
+<link rel="stylesheet" href="assets/style.css">
+<script type="importmap">
+{"imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+</head>
+<body>
+<header>
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="results.html" aria-current="page">Results</a>
+  <a href="models.html">Models and licenses</a>
+  <a href="reproduce.html">Reproduce</a>
+  <a href="https://github.com/Vishvak12/medical-3d">Code</a>
+</nav>
+</header>
+<main>
+<h1>Results</h1>
+<p>Everything on this page was produced by the scripts in the repository from a private set of clinical knee X-ray pairs (see <a href="index.html#data">Data</a>). No raw X-ray is published.</p>
+
+<h2 id="pointcloud">Interactive point cloud</h2>
+<div id="viewer" role="img" aria-label="Interactive 3D point cloud"></div>
+<p id="viewer-status">Loading...</p>
+<p>18,496 points, exported from Open3D. The model and input image that produced this file were not recorded. Every point is gray (equal red, green and blue values).</p>
+<noscript><p>The viewer needs JavaScript and WebGL.</p></noscript>
+<script type="module" src="assets/viewer.js"></script>
+
+<h2 id="renders">3D renders by model</h2>
+<p>Screenshots of the Open3D point cloud for five samples per model, shown at reduced size. Depth is a relative estimate from one merged 2D image (see <a href="index.html#limitations">limitations</a>), so differences between models show how each one interprets the same kind of input, not which one is closer to the true anatomy.</p>
+<h3>Depth Anything V2 (Small)</h3>
+<div class="grid">
+  <figure><img src="assets/renders/depthv2_1.png" alt="Depth Anything V2 (Small), 3D render, sample 1" loading="lazy"><figcaption>Sample 1</figcaption></figure>
+  <figure><img src="assets/renders/depthv2_2.png" alt="Depth Anything V2 (Small), 3D render, sample 2" loading="lazy"><figcaption>Sample 2</figcaption></figure>
+  <figure><img src="assets/renders/depthv2_3.png" alt="Depth Anything V2 (Small), 3D render, sample 3" loading="lazy"><figcaption>Sample 3</figcaption></figure>
+  <figure><img src="assets/renders/depthv2_4.png" alt="Depth Anything V2 (Small), 3D render, sample 4" loading="lazy"><figcaption>Sample 4</figcaption></figure>
+  <figure><img src="assets/renders/depthv2_5.png" alt="Depth Anything V2 (Small), 3D render, sample 5" loading="lazy"><figcaption>Sample 5</figcaption></figure>
+</div>
+<h3>GLPN (NYU)</h3>
+<div class="grid">
+  <figure><img src="assets/renders/glpn_1.png" alt="GLPN (NYU), 3D render, sample 1" loading="lazy"><figcaption>Sample 1</figcaption></figure>
+  <figure><img src="assets/renders/glpn_2.png" alt="GLPN (NYU), 3D render, sample 2" loading="lazy"><figcaption>Sample 2</figcaption></figure>
+  <figure><img src="assets/renders/glpn_3.png" alt="GLPN (NYU), 3D render, sample 3" loading="lazy"><figcaption>Sample 3</figcaption></figure>
+  <figure><img src="assets/renders/glpn_4.png" alt="GLPN (NYU), 3D render, sample 4" loading="lazy"><figcaption>Sample 4</figcaption></figure>
+  <figure><img src="assets/renders/glpn_5.png" alt="GLPN (NYU), 3D render, sample 5" loading="lazy"><figcaption>Sample 5</figcaption></figure>
+</div>
+<h3>ZoeDepth (NYU+KITTI)</h3>
+<div class="grid">
+  <figure><img src="assets/renders/zoe_1.png" alt="ZoeDepth (NYU+KITTI), 3D render, sample 1" loading="lazy"><figcaption>Sample 1</figcaption></figure>
+  <figure><img src="assets/renders/zoe_2.png" alt="ZoeDepth (NYU+KITTI), 3D render, sample 2" loading="lazy"><figcaption>Sample 2</figcaption></figure>
+  <figure><img src="assets/renders/zoe_3.png" alt="ZoeDepth (NYU+KITTI), 3D render, sample 3" loading="lazy"><figcaption>Sample 3</figcaption></figure>
+  <figure><img src="assets/renders/zoe_4.png" alt="ZoeDepth (NYU+KITTI), 3D render, sample 4" loading="lazy"><figcaption>Sample 4</figcaption></figure>
+  <figure><img src="assets/renders/zoe_5.png" alt="ZoeDepth (NYU+KITTI), 3D render, sample 5" loading="lazy"><figcaption>Sample 5</figcaption></figure>
+</div>
+<h3>DPT-Hybrid MiDaS</h3>
+<div class="grid">
+  <figure><img src="assets/renders/intel_1.png" alt="DPT-Hybrid MiDaS, 3D render, sample 1" loading="lazy"><figcaption>Sample 1</figcaption></figure>
+  <figure><img src="assets/renders/intel_2.png" alt="DPT-Hybrid MiDaS, 3D render, sample 2" loading="lazy"><figcaption>Sample 2</figcaption></figure>
+  <figure><img src="assets/renders/intel_3.png" alt="DPT-Hybrid MiDaS, 3D render, sample 3" loading="lazy"><figcaption>Sample 3</figcaption></figure>
+  <figure><img src="assets/renders/intel_4.png" alt="DPT-Hybrid MiDaS, 3D render, sample 4" loading="lazy"><figcaption>Sample 4</figcaption></figure>
+  <figure><img src="assets/renders/intel_5.png" alt="DPT-Hybrid MiDaS, 3D render, sample 5" loading="lazy"><figcaption>Sample 5</figcaption></figure>
+</div>
+<h3>DPT with DINOv2 backbone (small, KITTI)</h3>
+<div class="grid">
+  <figure><img src="assets/renders/dino_1.png" alt="DPT with DINOv2 backbone (small, KITTI), 3D render, sample 1" loading="lazy"><figcaption>Sample 1</figcaption></figure>
+  <figure><img src="assets/renders/dino_2.png" alt="DPT with DINOv2 backbone (small, KITTI), 3D render, sample 2" loading="lazy"><figcaption>Sample 2</figcaption></figure>
+  <figure><img src="assets/renders/dino_3.png" alt="DPT with DINOv2 backbone (small, KITTI), 3D render, sample 3" loading="lazy"><figcaption>Sample 3</figcaption></figure>
+  <figure><img src="assets/renders/dino_4.png" alt="DPT with DINOv2 backbone (small, KITTI), 3D render, sample 4" loading="lazy"><figcaption>Sample 4</figcaption></figure>
+  <figure><img src="assets/renders/dino_5.png" alt="DPT with DINOv2 backbone (small, KITTI), 3D render, sample 5" loading="lazy"><figcaption>Sample 5</figcaption></figure>
+</div>
+
+<h2 id="metrics">Metrics</h2>
+<p>The scripts write <code>performance_metrics_*.csv</code>, one per model script. These files are not published here as a comparison, for three reasons:</p>
+<ul>
+  <li>Every value is computed from the right-hand image before any depth model runs. The columns compare the bilateral-filtered image (Noise), the BBHE image (Contrast) and the merged image (Register) with the resized input. They measure the preprocessing, not the depth models.</li>
+  <li>The values are computed once after the image loop, so each file holds the numbers for one image pair, not an average.</li>
+  <li>The CSVs for different models are not independent. <code>performance_metrics_depthv2.csv</code> and <code>performance_metrics_dinov2.csv</code> match in all but one cell, and <code>performance_metrics_GLPN.csv</code> and <code>performance_metrics_inteldpt.csv</code> match in all but one cell. The DINOv2 script processes two pairs and the Depth Anything script processes every pair, so identical values are not expected from separate runs.</li>
+</ul>
+<p>Numbers are omitted until the preprocessing metrics are re-run from a clean state.</p>
+</main>
+<footer>
+Code: MIT license. Third-party models, papers and licenses: see the <a href="models.html">models page</a>.
+</footer>
+</body>
+</html>

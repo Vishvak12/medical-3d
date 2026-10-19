@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Models and licenses - medical-3d</title>
+<meta name="description" content="Pretrained models, papers, tools and licenses used by medical-3d.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header>
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="results.html">Results</a>
+  <a href="models.html" aria-current="page">Models and licenses</a>
+  <a href="reproduce.html">Reproduce</a>
+  <a href="https://github.com/Vishvak12/medical-3d">Code</a>
+</nav>
+</header>
+<main>
+<h1>Models, tools and licenses</h1>
+<p>No model weights are stored in this repository. The scripts download them from Hugging Face at run time, and each keeps its own license. Licenses below are the ones shown on each model card, or in the package metadata for the installed version, when this page was written.</p>
+
+<h2 id="depth-models">Pretrained depth models</h2>
+<div class="scroll">
+<table>
+<thead><tr><th>Model (Hugging Face ID)</th><th>License</th><th>Paper</th></tr></thead>
+<tbody>
+<tr>
+  <td><a href="https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf">depth-anything/Depth-Anything-V2-Small-hf</a></td>
+  <td>Apache-2.0</td>
+  <td>L. Yang, B. Kang, Z. Huang, Z. Zhao, X. Xu, J. Feng, H. Zhao. Depth Anything V2. 2024. <a href="https://arxiv.org/abs/2406.09414">arXiv:2406.09414</a></td>
+</tr>
+<tr>
+  <td><a href="https://huggingface.co/vinvino02/glpn-nyu">vinvino02/glpn-nyu</a></td>
+  <td>Apache-2.0</td>
+  <td>D. Kim, W. Ga, P. Ahn, D. Joo, S. Chun, J. Kim. Global-Local Path Networks for Monocular Depth Estimation with Vertical CutDepth. 2022. <a href="https://arxiv.org/abs/2201.07436">arXiv:2201.07436</a></td>
+</tr>
+<tr>
+  <td><a href="https://huggingface.co/Intel/zoedepth-nyu-kitti">Intel/zoedepth-nyu-kitti</a></td>
+  <td>MIT</td>
+  <td>S. F. Bhat, R. Birkl, D. Wofk, P. Wonka, M. Muller. ZoeDepth: Zero-shot Transfer by Combining Relative and Metric Depth. 2023. <a href="https://arxiv.org/abs/2302.12288">arXiv:2302.12288</a></td>
+</tr>
+<tr>
+  <td><a href="https://huggingface.co/Intel/dpt-hybrid-midas">Intel/dpt-hybrid-midas</a></td>
+  <td>Apache-2.0</td>
+  <td>R. Ranftl, A. Bochkovskiy, V. Koltun. Vision Transformers for Dense Prediction. 2021. <a href="https://arxiv.org/abs/2103.13413">arXiv:2103.13413</a></td>
+</tr>
+<tr>
+  <td><a href="https://huggingface.co/facebook/dpt-dinov2-small-kitti">facebook/dpt-dinov2-small-kitti</a></td>
+  <td>Apache-2.0</td>
+  <td>M. Oquab et al. DINOv2: Learning Robust Visual Features without Supervision. 2023. <a href="https://arxiv.org/abs/2304.07193">arXiv:2304.07193</a>. The DPT head follows Ranftl et al. (above).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code>Models/dinov2/dinov2base.py</code> loads <code>facebook/dinov2-base</code> (Apache-2.0 on its model card, same DINOv2 paper) as a feature backbone. It is not one of the depth models above.</p>
+
+<h2 id="methods">Methods used in the pipeline</h2>
+<ul>
+  <li><strong>Bilateral filter.</strong> C. Tomasi, R. Manduchi. Bilateral filtering for gray and color images. ICCV 1998, pp. 839-846. <a href="https://doi.org/10.1109/ICCV.1998.710815">doi:10.1109/ICCV.1998.710815</a></li>
+  <li><strong>BBHE.</strong> Y.-T. Kim. Contrast enhancement using brightness preserving bi-histogram equalization. IEEE Transactions on Consumer Electronics, 43(1), February 1997.</li>
+  <li><strong>Harris corners.</strong> C. Harris, M. Stephens. A combined corner and edge detector. Proceedings of the Alvey Vision Conference, 1988. <a href="https://doi.org/10.5244/C.2.23">doi:10.5244/C.2.23</a></li>
+  <li><strong>ORB.</strong> E. Rublee, V. Rabaud, K. Konolige, G. Bradski. ORB: an efficient alternative to SIFT or SURF. ICCV 2011, pp. 2564-2571. <a href="https://doi.org/10.1109/ICCV.2011.6126544">doi:10.1109/ICCV.2011.6126544</a></li>
+  <li><strong>Open3D.</strong> Q.-Y. Zhou, J. Park, V. Koltun. Open3D: A Modern Library for 3D Data Processing. 2018. <a href="https://arxiv.org/abs/1801.09847">arXiv:1801.09847</a></li>
+</ul>
+
+<h2 id="software">Software</h2>
+<div class="scroll">
+<table>
+<thead><tr><th>Package</th><th>Version used</th><th>License</th><th>Used for</th></tr></thead>
+<tbody>
+<tr><td>Open3D</td><td>0.18.0</td><td>MIT</td><td>RGB-D image, point cloud</td></tr>
+<tr><td>opencv-python</td><td>4.10.0.84</td><td>Apache-2.0</td><td>Resize, bilateral filter, Harris, ORB, matching</td></tr>
+<tr><td><a href="https://github.com/Nguyen-Hoang-Nam/image-enhancement">image_enhancement</a> (N. H. Nam)</td><td>0.2.1</td><td>MIT</td><td>BBHE</td></tr>
+<tr><td><a href="https://github.com/ocampor/image-quality">image-quality</a> (R. Ocampo)</td><td>1.2.7</td><td>Apache-2.0</td><td>Imported; the BRISQUE call is commented out in the scripts</td></tr>
+<tr><td><a href="https://threejs.org/">three.js</a></td><td>0.160.0</td><td>MIT</td><td>Point-cloud viewer on this site, loaded from jsDelivr</td></tr>
+</tbody>
+</table>
+</div>
+<p>PyTorch, Transformers, NumPy, SciPy, pandas, scikit-image, scikit-learn, Matplotlib, Pillow and Requests are also imported; versions are pinned in <code>requirements.txt</code>.</p>
+
+<h2 id="vendored">Vendored code</h2>
+<p><code>Models/dinov2/dinov2/</code> is a copy of the <a href="https://github.com/facebookresearch/dinov2">facebookresearch/dinov2</a> repository. It keeps its own <code>LICENSE</code> (Apache License 2.0).</p>
+
+<h2 id="this-repo">This repository</h2>
+<p>The original code is MIT licensed (see <code>LICENSE</code>). The clinical X-ray data is private and not covered by that license.</p>
+</main>
+<footer>
+Licenses can change. Check the linked model card or repository before reuse.
+</footer>
+</body>
+</html>

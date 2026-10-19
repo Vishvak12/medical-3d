@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reproduce - medical-3d</title>
+<meta name="description" content="How to run the medical-3d scripts on your own left/right image pairs.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header>
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="results.html">Results</a>
+  <a href="models.html">Models and licenses</a>
+  <a href="reproduce.html" aria-current="page">Reproduce</a>
+  <a href="https://github.com/Vishvak12/medical-3d">Code</a>
+</nav>
+</header>
+<main>
+<h1>Reproduce</h1>
+<p>The clinical data is private, so you need your own left/right image pairs. The scripts were run on Windows with Python 3.10.14. Nothing here has been tested on Linux or macOS.</p>
+
+<h2 id="setup">Setup</h2>
+<pre><code>git clone https://github.com/Vishvak12/medical-3d.git
+cd medical-3d
+pip install -r requirements.txt</code></pre>
+
+<h2 id="inputs">Inputs and folders</h2>
+<p>The scripts use paths relative to the folder you run them from. Create these folders first. <code>cv2.imwrite</code> does not create missing folders.</p>
+<pre><code>Dataset And Output/right_test/        your right images
+Dataset And Output/left_test/         your left images (same number, same order)
+Dataset And Output/Register_img/
+Dataset And Output/Register_2D_image/
+Original_img/  ABF_img/  BBHE_img/  FeatureDetect_img/  FeatureMatching_img/</code></pre>
+<p>Left and right files are paired by position in the folder listing, so the two folders must list in matching order.</p>
+
+<h2 id="run">Run</h2>
+<p>From the repository root:</p>
+<pre><code>python Models/DepthAnything_V2/depthv2.py</code></pre>
+<p>Replace the path with another script from the <a href="index.html#models">model table</a> to use a different depth model. The first run downloads the weights from Hugging Face. Outputs go to <code>Dataset And Output/Color_image/</code> and <code>Dataset And Output/depth_images/</code>, and the metrics go to a <code>performance_metrics_*.csv</code> file in the working folder.</p>
+<p>The scripts open interactive windows (Matplotlib with the TkAgg backend, an image viewer, and an Open3D viewer) for every image. Close each window to continue.</p>
+
+<h2 id="caveats">Known caveats</h2>
+<ul>
+  <li>In the five main scripts the merged images are written to <code>Dataset and Output/Register_img</code> (lowercase "and") and read back from <code>Dataset And Output/Register_img</code>. <code>dinov2.py</code> uses the lowercase form for both. Windows treats these as the same folder; a case-sensitive file system does not.</li>
+  <li><code>dinov2.py</code> processes the first two pairs (<code>range(0, 2)</code>). The other scripts process every pair in <code>right_test</code>.</li>
+  <li>The scripts are long single files that repeat the same code and have no command-line options. Each model folder carries its own copy of <code>D3FFT.py</code>, <code>channel_conversion.py</code> and <code>performance.py</code>.</li>
+</ul>
+</main>
+<footer>
+Code: MIT license. Third-party models, papers and licenses: see the <a href="models.html">models page</a>.
+</footer>
+</body>
+</html>

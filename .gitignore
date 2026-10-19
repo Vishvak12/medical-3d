@@ -1,0 +1,17 @@
+# Local Python environment
+.conda/
+__pycache__/
+*.pyc
+
+# Patient data and images derived from it. Never publish.
+Dataset And Output/
+Original_img/
+ABF_img/
+BBHE_img/
+FeatureDetect_img/
+FeatureMatching_img/
+Register_*/
+
+# Archives that duplicate folders already in the repo
+*.zip
+*.7z

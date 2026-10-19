@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>medical-3d</title>
+<meta name="description" content="3D point-cloud views of a knee from a left/right X-ray pair using pretrained monocular depth models.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header>
+<nav>
+  <a href="index.html" aria-current="page">Overview</a>
+  <a href="results.html">Results</a>
+  <a href="models.html">Models and licenses</a>
+  <a href="reproduce.html">Reproduce</a>
+  <a href="https://github.com/Vishvak12/medical-3d">Code</a>
+</nav>
+</header>
+<main>
+<h1>medical-3d</h1>
+<p>A pipeline that builds a 3D point-cloud view of a knee from a left/right pair of clinical X-ray images. It preprocesses the pair, merges it into one image, estimates depth with a pretrained monocular depth model, and back-projects the depth map into a point cloud. The same preprocessing is combined with five different depth models so their output can be compared visually.</p>
+
+<div class="note">
+<strong>Research code.</strong> This is not a medical device. The 3D views are relative shape estimates from a single merged 2D image. They have not been validated against ground-truth 3D data or by clinicians, and must not be used for diagnosis.
+</div>
+
+<h2 id="pipeline">Pipeline</h2>
+<p>The five model scripts run the same nine steps. They differ in the depth model (step 7), in output file names, and in the details listed on the <a href="reproduce.html#caveats">reproduce page</a>.</p>
+<ol>
+  <li><strong>Resize.</strong> The right and left image are resized to 256 x 256 (<code>cv2.resize</code>).</li>
+  <li><strong>Denoise.</strong> Bilateral filter, diameter 15, sigma colour 75, sigma space 75 (<code>cv2.bilateralFilter</code>).</li>
+  <li><strong>Contrast.</strong> Brightness-preserving bi-histogram equalization (BBHE) in HSV space, from the <code>image_enhancement</code> package.</li>
+  <li><strong>Corners.</strong> Harris corner response (block size 2, kernel size 3, k = 0.04). Pixels above 1% of the maximum response are painted green.</li>
+  <li><strong>Merge (<code>D3FFT()</code>).</strong> ORB keypoints are matched with a brute-force matcher and the first 20 matches are drawn for inspection. The two resized images are then added pixel by pixel to form the "registered" image.</li>
+  <li><strong>Channels.</strong> The merged image is converted to RGB over a white background (<code>rgba2rgb</code>); pixels that are exactly black become white.</li>
+  <li><strong>Depth.</strong> A pretrained depth model predicts a depth map. The input is resized to dimensions that are multiples of 32 (height at most 480), the prediction is interpolated back bicubically, a 60 px border is cropped, and the result is scaled to 0 to 255.</li>
+  <li><strong>Point cloud.</strong> Open3D builds an RGB-D image and back-projects it with a fixed pinhole camera (focal length 50 px in x and y, principal point at the image centre).</li>
+  <li><strong>Metrics.</strong> Image-quality measures (PSNR, MSE, RMSE, NMSE and others) are written to <code>performance_metrics_*.csv</code>.</li>
+</ol>
+
+<h2 id="models">Depth models</h2>
+<div class="scroll">
+<table>
+<thead><tr><th>Folder</th><th>Script</th><th>Hugging Face model</th></tr></thead>
+<tbody>
+<tr><td><code>Models/DepthAnything_V2</code></td><td><code>depthv2.py</code></td><td><code>depth-anything/Depth-Anything-V2-Small-hf</code></td></tr>
+<tr><td><code>Models/GLPN</code></td><td><code>glpn.py</code></td><td><code>vinvino02/glpn-nyu</code></td></tr>
+<tr><td><code>Models/zoedepth</code></td><td><code>ZoeDepth.py</code></td><td><code>Intel/zoedepth-nyu-kitti</code></td></tr>
+<tr><td><code>Models/intel-dpt-hybrid-midas copy</code></td><td><code>hybrid-midas.py</code></td><td><code>Intel/dpt-hybrid-midas</code></td></tr>
+<tr><td><code>Models/dinov2</code></td><td><code>dinov2.py</code></td><td><code>facebook/dpt-dinov2-small-kitti</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>Papers and licenses for each model are on the <a href="models.html">models page</a>. Renders for each model are on the <a href="results.html">results page</a>.</p>
+
+<h2 id="limitations">Limitations</h2>
+<ul>
+  <li><strong>The name "D3FFT" is misleading.</strong> <code>D3FFT.py</code> contains no Fourier transform. It matches ORB features and adds two images.</li>
+  <li><strong>No geometric registration.</strong> The ORB matches are drawn but never used to estimate a transform, so the two views are not aligned before they are added. The addition is on 8-bit arrays, so sums above 255 wrap around.</li>
+  <li><strong>Harris corners are drawn into the BBHE images before ORB matching</strong>, so ORB sees the green markers.</li>
+  <li><strong>Depth is relative.</strong> The pretrained depth models are used as downloaded and are not fine-tuned on radiographs in this repository. The camera intrinsics in step 8 are fixed values, not calibrated, so the point-cloud shape is not metric.</li>
+  <li><strong>The metrics do not rank the depth models.</strong> They compare the preprocessing stages (steps 2, 3 and 5) against the resized input, so they do not depend on which depth model runs later. See the <a href="results.html#metrics">results page</a>.</li>
+  <li><strong>No quantitative evaluation of the 3D output.</strong> There is no ground-truth 3D data, so the renders are shown for visual comparison only.</li>
+</ul>
+
+<h2 id="data">Data</h2>
+<p>The clinical knee X-ray data is private and cannot be disclosed. It was received from Dr. Arti Khaparde and Dr. Vaidehi Deshmukh at MIT World Peace University (Dr. Khaparde is no longer affiliated with the university). No X-ray is published here. The renders on the results page are 3D reconstructions rendered from the data.</p>
+
+<h2 id="authors">Authors</h2>
+<p>Vishvaksen Pendyala, Nandini Dhiran.</p>
+</main>
+<footer>
+Code: MIT license. Third-party models, papers and licenses: see the <a href="models.html">models page</a>.
+</footer>
+</body>
+</html>
